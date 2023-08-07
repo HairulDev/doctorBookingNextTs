@@ -22,14 +22,17 @@ interface Interface {
     getSchedule: (id: any) => void;
     getAppointment: () => void;
     getDoctors: () => void;
+    getDoctor: () => void;
     signUpApp: (formData: any, isDoctor: string) => void;
     signInApp: (formData: any) => void;
     signOutApp: () => void;
     createBooking: (formData: any, isDoctor: string) => void;
+    createSchedule: (formData: any) => void;
     rateBooking: (formData: any, idBooking: string) => void;
     delBooking: (id: any) => void;
     signIn: () => void;
     doctors: string | null;
+    doctor: string | null;
     appointment: string | null;
     schedule: string | null;
     user: string | null;
@@ -38,6 +41,7 @@ interface Interface {
 
 export const useZustandStore = create<Interface>((set, get) => ({
     doctors: null,
+    doctor: null,
     schedule: null,
     appointment: null,
     user: null,
@@ -86,6 +90,17 @@ export const useZustandStore = create<Interface>((set, get) => ({
             return error
         }
     },
+    getDoctor: async () => {
+        try {
+            const { data: { data } }: any = await API.get(`/doctor/detail`)
+            set(() => ({
+                doctor: data,
+            }));
+            return data
+        } catch (error) {
+            return error
+        }
+    },
     getSchedule: async (id) => {
         try {
             const { data }: any = await API.get(`/doctor/${id}/schedule`)
@@ -100,6 +115,13 @@ export const useZustandStore = create<Interface>((set, get) => ({
     createBooking: async (formData, isDoctor) => {
         try {
             await API.post(`/booking/${isDoctor}`, formData)
+        } catch (error) {
+            return error
+        }
+    },
+    createSchedule: async (formData) => {
+        try {
+            await API.post(`/doctor/schedule`, formData)
         } catch (error) {
             return error
         }
