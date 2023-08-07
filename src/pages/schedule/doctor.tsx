@@ -38,10 +38,12 @@ const ScheduleDoctor: NextPage = () => {
     p: 4,
   };
 
-  const { createSchedule, getDoctor, doctor }: any = useZustandStore();
+  const { createSchedule, getDoctor, doctor, delSchedule }: any =
+    useZustandStore();
 
   const [selectedDateFrom, setSelectedDateFrom] = useState<string | null>(null);
   const [selectedDateTo, setSelectedDateTo] = useState<string | null>(null);
+  const [open, setOpen] = React.useState(false);
 
   useEffect(() => {
     getDoctor();
@@ -69,12 +71,15 @@ const ScheduleDoctor: NextPage = () => {
     await getDoctor();
   };
 
-  const [open, setOpen] = React.useState(false);
-
   const handleClose = async () => setOpen(false);
 
   const handleSchedule = () => {
     setOpen(true);
+  };
+
+  const handleDel = async (id) => {
+    await delSchedule(id);
+    await getDoctor();
   };
 
   return (
@@ -112,6 +117,7 @@ const ScheduleDoctor: NextPage = () => {
                       </TableCell>
                       <TableCell></TableCell>
                       <TableCell></TableCell>
+                      <TableCell></TableCell>
                     </TableRow>
                     <TableRow>
                       <TableCell>
@@ -129,6 +135,7 @@ const ScheduleDoctor: NextPage = () => {
                           Time Slot
                         </Typography>
                       </TableCell>
+                      <TableCell align="center"></TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
@@ -169,6 +176,17 @@ const ScheduleDoctor: NextPage = () => {
                               {" - "}
                               {moment(item.availableTo).format("HH:ss")}
                             </Typography>
+                          </TableCell>
+                          <TableCell align="center">
+                            <Button
+                              variant="outlined"
+                              size="small"
+                              onClick={() => {
+                                handleDel(item.id);
+                              }}
+                            >
+                              Delete
+                            </Button>
                           </TableCell>
                         </TableRow>
                       ))}

@@ -30,6 +30,7 @@ interface Interface {
     createSchedule: (formData: any) => void;
     rateBooking: (formData: any, idBooking: string) => void;
     delBooking: (id: any) => void;
+    delSchedule: (id: any) => void;
     signIn: () => void;
     doctors: string | null;
     doctor: string | null;
@@ -136,6 +137,13 @@ export const useZustandStore = create<Interface>((set, get) => ({
     delBooking: async (id) => {
         try {
             await API.delete(`/booking/${id}`)
+        } catch (error) {
+            return error
+        }
+    },
+    delSchedule: async (id) => {
+        try {
+            await API.delete(`/doctor/schedule/${id}`)
         } catch (error) {
             return error
         }

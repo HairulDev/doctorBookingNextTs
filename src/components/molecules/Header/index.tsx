@@ -36,7 +36,12 @@ export default function Header() {
             </Typography>
           </Link>
           <Link href="/appointment">
-            <Typography variant="body2">Appointment</Typography>
+            <Typography variant="body2" sx={{ mr: 2 }}>
+              Appointment
+            </Typography>
+          </Link>
+          <Link href="/schedule/doctor">
+            <Typography variant="body2">Schedule Management</Typography>
           </Link>
           <Typography color="inherit" sx={{ flexGrow: 1 }}></Typography>
           <Button color="inherit" onClick={handleLogout}>
